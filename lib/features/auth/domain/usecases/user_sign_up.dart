@@ -1,14 +1,15 @@
 import 'package:blog_app/core/theme/error/failures.dart';
 import 'package:blog_app/core/usecase/usecase.dart';
+import 'package:blog_app/features/auth/domain/entities/user.dart';
 import 'package:blog_app/features/auth/domain/repositry/auth_repositry.dart';
 import 'package:fpdart/fpdart.dart';
 
-class UserSignUp implements Usecase<String, UserSignupParams> {
+class UserSignUp implements Usecase<User, UserSignupParams> {
   final AuthRepositry authRepositry;
 
   const UserSignUp(this.authRepositry);
   @override
-  Future<Either<Failures, String>> call(UserSignupParams parms) async {
+  Future<Either<Failures, User>> call(UserSignupParams parms) async {
     return await authRepositry.signUpWithEmailPassword(
       name: parms.name,
       email: parms.email,
