@@ -47,23 +47,45 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
           padding: const EdgeInsets.all(16),
           child: Column(
             children: [
-              DottedBorder(
-                color: AppPallete.borderColor,
-                dashPattern: [10, 4],
-                radius: const Radius.circular(10),
-                borderType: BorderType.RRect,
-                strokeCap: StrokeCap.round,
-                child: Container(
+              GestureDetector(
+                onTap: () {
+                  selectedImage();
+                },
+                child: SizedBox(
                   height: 150,
                   width: double.infinity,
-                  child: const Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.folder_open, size: 40),
-                      SizedBox(height: 15),
-                      Text("Select Your Image", style: TextStyle(fontSize: 15)),
-                    ],
-                  ),
+                  child: image != null
+                      ? ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: Image.file(image!, fit: BoxFit.cover),
+                        )
+                      : GestureDetector(
+                          onTap: () {
+                            selectedImage();
+                          },
+                          child: DottedBorder(
+                            color: AppPallete.borderColor,
+                            dashPattern: [10, 4],
+                            radius: const Radius.circular(10),
+                            borderType: BorderType.RRect,
+                            strokeCap: StrokeCap.round,
+                            child: Container(
+                              height: 150,
+                              width: double.infinity,
+                              child: const Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.folder_open, size: 40),
+                                  SizedBox(height: 15),
+                                  Text(
+                                    "Select Your Image",
+                                    style: TextStyle(fontSize: 15),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
                 ),
               ),
               const SizedBox(height: 20),
