@@ -16,6 +16,7 @@ dependencies:
   image_picker: ^1.2.1
 
   dotted_border: ^2.1.0
+  uuid: ^4.5.2
 
   
 
