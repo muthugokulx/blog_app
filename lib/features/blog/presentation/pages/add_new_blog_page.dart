@@ -17,6 +17,7 @@ class AddNewBlogPage extends StatefulWidget {
 class _AddNewBlogPageState extends State<AddNewBlogPage> {
   final titleController = TextEditingController();
   final contentController = TextEditingController();
+  final formkey = GlobalKey<FormState>();
   List<String> selectedTopics = [];
   File? image;
 
@@ -40,106 +41,119 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.done_rounded))],
+        actions: [
+          IconButton(
+            onPressed: () {
+              if (formkey.currentState!.validate() &&
+                  selectedTopics.isNotEmpty &&
+                  image != null) {}
+              ;
+            },
+            icon: Icon(Icons.done_rounded),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: Column(
-            children: [
-              GestureDetector(
-                onTap: () {
-                  selectedImage();
-                },
-                child: SizedBox(
-                  height: 150,
-                  width: double.infinity,
-                  child: image != null
-                      ? ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
-                          child: Image.file(image!, fit: BoxFit.cover),
-                        )
-                      : GestureDetector(
-                          onTap: () {
-                            selectedImage();
-                          },
-                          child: DottedBorder(
-                            color: AppPallete.borderColor,
-                            dashPattern: [10, 4],
-                            radius: const Radius.circular(10),
-                            borderType: BorderType.RRect,
-                            strokeCap: StrokeCap.round,
-                            child: Container(
-                              height: 150,
-                              width: double.infinity,
-                              child: const Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(Icons.folder_open, size: 40),
-                                  SizedBox(height: 15),
-                                  Text(
-                                    "Select Your Image",
-                                    style: TextStyle(fontSize: 15),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children:
-                      [
-                            "Technology",
-                            "Bussiness",
-                            "Entertainment",
-                            "Programming",
-                          ]
-                          .map(
-                            (e) => Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: GestureDetector(
-                                onTap: () {
-                                  if (selectedTopics.contains(e)) {
-                                    selectedTopics.remove(e);
-                                  } else {
-                                    selectedTopics.add(e);
-                                  }
-
-                                  setState(() {});
-                                },
-                                child: Chip(
-                                  label: Text(e),
-                                  color: selectedTopics.contains(e)
-                                      ? const WidgetStatePropertyAll(
-                                          AppPallete.errorColor,
-                                        )
-                                      : null,
-                                  side: selectedTopics.contains(e)
-                                      ? null
-                                      : BorderSide(
-                                          color: AppPallete.borderColor,
-                                        ),
+          child: Form(
+            key: formkey,
+            child: Column(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    selectedImage();
+                  },
+                  child: SizedBox(
+                    height: 150,
+                    width: double.infinity,
+                    child: image != null
+                        ? ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Image.file(image!, fit: BoxFit.cover),
+                          )
+                        : GestureDetector(
+                            onTap: () {
+                              selectedImage();
+                            },
+                            child: DottedBorder(
+                              color: AppPallete.borderColor,
+                              dashPattern: [10, 4],
+                              radius: const Radius.circular(10),
+                              borderType: BorderType.RRect,
+                              strokeCap: StrokeCap.round,
+                              child: Container(
+                                height: 150,
+                                width: double.infinity,
+                                child: const Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.folder_open, size: 40),
+                                    SizedBox(height: 15),
+                                    Text(
+                                      "Select Your Image",
+                                      style: TextStyle(fontSize: 15),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
-                          )
-                          .toList(),
+                          ),
+                  ),
                 ),
-              ),
-              const SizedBox(height: 20),
-              BlogEditor(controller: titleController, hintText: "Blog Title"),
+                const SizedBox(height: 20),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children:
+                        [
+                              "Technology",
+                              "Bussiness",
+                              "Entertainment",
+                              "Programming",
+                            ]
+                            .map(
+                              (e) => Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    if (selectedTopics.contains(e)) {
+                                      selectedTopics.remove(e);
+                                    } else {
+                                      selectedTopics.add(e);
+                                    }
 
-              const SizedBox(height: 20),
-              BlogEditor(
-                controller: contentController,
-                hintText: "Blog Content",
-              ),
-            ],
+                                    setState(() {});
+                                  },
+                                  child: Chip(
+                                    label: Text(e),
+                                    color: selectedTopics.contains(e)
+                                        ? const WidgetStatePropertyAll(
+                                            AppPallete.errorColor,
+                                          )
+                                        : null,
+                                    side: selectedTopics.contains(e)
+                                        ? null
+                                        : BorderSide(
+                                            color: AppPallete.borderColor,
+                                          ),
+                                  ),
+                                ),
+                              ),
+                            )
+                            .toList(),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                BlogEditor(controller: titleController, hintText: "Blog Title"),
+
+                const SizedBox(height: 20),
+                BlogEditor(
+                  controller: contentController,
+                  hintText: "Blog Content",
+                ),
+              ],
+            ),
           ),
         ),
       ),
