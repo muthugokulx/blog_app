@@ -11,7 +11,7 @@ abstract interface class BlogRemoteDataSource {
     required BlogModel blog,
   });
 
-  Future<List<BlogModel>> getAppBlogs();
+  Future<List<BlogModel>> getAllBlogs();
 }
 
 class BlogRemoteDataSourceImpl extends BlogRemoteDataSource {
@@ -45,7 +45,7 @@ class BlogRemoteDataSourceImpl extends BlogRemoteDataSource {
   }
 
   @override
-  Future<List<BlogModel>> getAppBlogs() async {
+  Future<List<BlogModel>> getAllBlogs() async {
     try {
       final blogs = await supabaseClient
           .from("blogs")
